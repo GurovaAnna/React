@@ -156,7 +156,9 @@ export default class Feed extends Component {
     _animatePostmanEnter = (Postman) => {
         fromTo(Postman, 4, { x: 280 }, { x: 0 });
     };
+
     _animatePostmanEntered = (Postman) => {
+        fromTo(Postman, 4, { rotationX: 200 }, { rotationX: 0 });
         this._toggleIsTransition();
     };
     _animatePostmanExit = (Postman) => {
@@ -196,7 +198,7 @@ export default class Feed extends Component {
                     onEnter = { this._animatePostmanEnter }
                     onEntered = { this._animatePostmanEntered }
                     onExit = { this._animatePostmanExit }
-                    timeout = { 10000 }>
+                    timeout = { 4000 }>
                     <Postman />
                 </Transition>
                 {postsJSX}
