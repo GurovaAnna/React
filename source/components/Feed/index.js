@@ -158,8 +158,12 @@ export default class Feed extends Component {
     };
 
     _animatePostmanEntered = (Postman) => {
-        fromTo(Postman, 4, { rotationX: 200 }, { rotationX: 0 });
-        this._toggleIsTransition();
+        fromTo(Postman, 4, { rotationX: 200 }, { rotationX: 0, onComplete: () => {
+            setTimeout(() => {
+                this._toggleIsTransition()
+            }, 500 )}}, 
+        );
+        
     };
     _animatePostmanExit = (Postman) => {
         fromTo(Postman, 4, { x: 0 }, { x: 280 });
