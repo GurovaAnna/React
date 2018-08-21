@@ -18,8 +18,9 @@ import { socket } from "socket/init";
 @withProfile
 export default class Feed extends Component {
     state = {
-        posts:      [],
-        isSpinning: false,
+        posts:        [],
+        isSpinning:   false,
+        isTransition: true,
     };
     componentDidMount () {
         const { currentUserFirstName, currentUserLastName } = this.props;
@@ -152,14 +153,20 @@ export default class Feed extends Component {
             { opacity: 1, rotationX: 0 }
         );
     };
-    _animatePostmanEntering = (Postman) => {
-        fromTo(Postman, 1, { x: 280 }, { x: 0 });
+    _animatePostmanEnter = (Postman) => {
+        fromTo(Postman, 4, { x: 280 }, { x: 0 });
     };
     _animatePostmanEntered = (Postman) => {
-        fromTo(Postman, 1, { x: 0 }, { x: 280 });
+        this._toggleIsTransition();
+    };
+    _animatePostmanExit = (Postman) => {
+        fromTo(Postman, 4, { x: 0 }, { x: 280 });
+    };
+    _toggleIsTransition = () => {
+        this.setState(({ isTransition }) => ({ isTransition: !isTransition }));
     };
     render () {
-        const { posts, isSpinning } = this.state;
+        const { posts, isSpinning, isTransition } = this.state;
         const postsJSX = posts.map((post) => {
             return (
                 <Catcher key = { post.id }>
@@ -185,10 +192,11 @@ export default class Feed extends Component {
                 </Transition>
                 <Transition
                     appear
-                    in
+                    in = { isTransition }
+                    onEnter = { this._animatePostmanEnter }
                     onEntered = { this._animatePostmanEntered }
-                    onEntering = { this._animatePostmanEntering }
-                    timeout = { 4000 }>
+                    onExit = { this._animatePostmanExit }
+                    timeout = { 10000 }>
                     <Postman />
                 </Transition>
                 {postsJSX}
