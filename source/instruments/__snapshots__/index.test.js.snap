@@ -1,0 +1,5 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`instruments: getFullApiUrl function should return a string - concatenation of two parameters via /  1`] = `"qqq/hhh"`;
+
+exports[`instruments: sum function should return an addition of two aruments passed 1`] = `9`;
