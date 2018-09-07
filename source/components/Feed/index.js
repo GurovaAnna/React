@@ -5,11 +5,10 @@ import {
     CSSTransition,
     TransitionGroup
 } from "react-transition-group";
-import { fromTo } from "gsap";
+import {TweenLite } from "gsap";
 //Components
 import { withProfile } from "components/HOC/withProfile";
 import Catcher from "components/Catcher";
-import StatusBar from "components/StatusBar";
 import Composer from "components/Composer";
 import Post from "components/Post";
 import Spinner from "components/Spinner";
@@ -151,7 +150,7 @@ export default class Feed extends Component {
         });
     };
     _animateComposerEnter = (composer) => {
-        fromTo(
+       TweenLite.fromTo(
             composer,
             1,
             { opacity: 0, rotationX: 50 },
@@ -159,26 +158,14 @@ export default class Feed extends Component {
         );
     };
     _animatePostmanEnter = (Postman) => {
-        fromTo(Postman, 4, { x: 280 }, { x: 0 });
+       TweenLite.fromTo(Postman, 1, { x: 280 }, { x: 0 });
     };
 
     _animatePostmanEntered = (Postman) => {
-        fromTo(
-            Postman,
-            4,
-            { rotationX: 200 },
-            {
-                rotationX:  0,
-                onComplete: () => {
-                    setTimeout(() => {
-                        this._toggleIsTransition();
-                    }, 500);
-                },
-            }
-        );
+      this._toggleIsTransition();
     };
     _animatePostmanExit = (Postman) => {
-        fromTo(Postman, 4, { x: 0 }, { x: 280 });
+       TweenLite.fromTo(Postman, 1, { x: 0 }, { x: 280 });
     };
     _toggleIsTransition = () => {
         this.setState(({ isTransition }) => ({ isTransition: !isTransition }));
@@ -213,7 +200,6 @@ export default class Feed extends Component {
         return (
             <section className = { Styles.feed }>
                 <Spinner isSpinning = { isSpinning } />
-                <StatusBar />
                 <Transition
                     appear
                     in
@@ -227,7 +213,7 @@ export default class Feed extends Component {
                     onEnter = { this._animatePostmanEnter }
                     onEntered = { this._animatePostmanEntered }
                     onExit = { this._animatePostmanExit }
-                    timeout = { 4000 }>
+                    timeout = { 5000 }>
                     <Postman />
                 </Transition>
                 <Counter count = { postsJSX.length } />
