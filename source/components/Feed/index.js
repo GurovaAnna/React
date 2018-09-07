@@ -5,7 +5,7 @@ import {
     CSSTransition,
     TransitionGroup
 } from "react-transition-group";
-import {TweenLite } from "gsap";
+import { TweenLite } from "gsap";
 //Components
 import { withProfile } from "components/HOC/withProfile";
 import Catcher from "components/Catcher";
@@ -150,7 +150,7 @@ export default class Feed extends Component {
         });
     };
     _animateComposerEnter = (composer) => {
-       TweenLite.fromTo(
+        TweenLite.fromTo(
             composer,
             1,
             { opacity: 0, rotationX: 50 },
@@ -158,14 +158,14 @@ export default class Feed extends Component {
         );
     };
     _animatePostmanEnter = (Postman) => {
-       TweenLite.fromTo(Postman, 1, { x: 280 }, { x: 0 });
+        TweenLite.fromTo(Postman, 1, { x: 280 }, { x: 0 });
     };
 
     _animatePostmanEntered = (Postman) => {
-      this._toggleIsTransition();
+        this._toggleIsTransition();
     };
     _animatePostmanExit = (Postman) => {
-       TweenLite.fromTo(Postman, 1, { x: 0 }, { x: 280 });
+        TweenLite.fromTo(Postman, 1, { x: 0 }, { x: 280 });
     };
     _toggleIsTransition = () => {
         this.setState(({ isTransition }) => ({ isTransition: !isTransition }));

@@ -1,6 +1,6 @@
 //Core
 import React, { Component } from "react";
-import {func, string} from "prop-types";
+import { func, string } from "prop-types";
 //Components
 import { withProfile } from "components/HOC/withProfile";
 //Instruments
@@ -8,8 +8,8 @@ import Styles from "./styles.m.css";
 
 export class Composer extends Component {
     static propTypes = {
-        _createPost: func.isRequired,
-        avatar:      string.isRequired,
+        _createPost:          func.isRequired,
+        avatar:               string.isRequired,
         currentUserFirstName: string.isRequired,
     };
 
@@ -66,4 +66,4 @@ export class Composer extends Component {
         );
     }
 }
-export default withProfile(Composer)
+export default withProfile(Composer);

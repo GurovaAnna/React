@@ -1,7 +1,7 @@
 // Core
 import React, { Component } from "react";
 import { hot } from "react-hot-loader";
-import { Switch, Route, Redirect } from 'react-router-dom';
+import { Switch, Route, Redirect } from "react-router-dom";
 
 //Components
 import Catcher from "components/Catcher";
@@ -13,40 +13,77 @@ import StatusBar from "components/StatusBar";
 
 //Instruments
 import avatar from "theme/assets/lisa";
+import { getIsLogged } from "instruments/index.js";
 
 const options = {
     avatar,
     currentUserFirstName: "Анна",
     currentUserLastName:  "Гурова",
-    isUser: true,
 };
 
 @hot(module)
 export default class App extends Component {
+    state = {
+        isLogged: false,
+    };
+
+    componentDidMount () {
+        this.setState({
+            isLogged: getIsLogged(),
+        });
+    }
+    _checkLogged = () => {
+        if (this.state.isLogged) {
+            if (!getIsLogged()) {
+                this.setState({
+                    isLogged: getIsLogged(),
+                });
+            }
+        } else if (getIsLogged()) {
+            this.setState({
+                isLogged: getIsLogged(),
+            });
+        }
+    };
+
     render () {
-      const isUser = false;
+        let jsx;
+        const { isLogged } = this.state;
 
-        return isUser ? (
-              <Catcher>
-                  <Provider value = { options }>
-                    <StatusBar />
-                         <Switch>
-                           <Route component = {Feed} path='/feed' />
-                           <Route component = {Profile} path='/profile' />
-                           <Route component = {Login} path='/login' />
-                           <Redirect to = '/feed'/>
-                         </Switch>
-                  </Provider>
-              </Catcher>
-          ) : (
-            <Catcher>
-                  <Provider value = { options }>
-                    <StatusBar />
-                         <Route component = {Login} path='/login' />
-                         <Redirect to = '/login'/>
+        if (isLogged) {
+            jsx = (
+                <Catcher>
+                    <Provider value = { options }>
+                        <StatusBar
+                            checkLogged = { this._checkLogged }
+                            isLogged = { this.state.isLogged }
+                        />
+                        <Switch>
+                            <Route component = { Feed } path = '/feed' />
+                            <Route component = { Profile } path = '/profile' />
+                            <Redirect to = '/feed' />
+                        </Switch>
                     </Provider>
-              </Catcher>
-          )
+                </Catcher>
+            );
+        } else {
+            jsx = (
+                <Catcher>
+                    <Provider value = { options }>
+                        <StatusBar isLogged = { this.state.isLogged } />
+                        <Switch>
+                            <Route
+                                checkLogged = { this._checkLogged }
+                                component = { Login }
+                                path = '/login'
+                            />
+                            <Redirect from = '/' to = '/login' />
+                        </Switch>
+                    </Provider>
+                </Catcher>
+            );
+        }
 
+        return jsx;
     }
 }
